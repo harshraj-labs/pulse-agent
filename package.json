@@ -1,0 +1,30 @@
+{
+  "name": "pulse-agent",
+  "version": "1.0.0",
+  "description": "A employee brief submission + manager progress tracking agent",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harshraj-labs/pulse-agent.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/harshraj-labs/pulse-agent/issues"
+  },
+  "homepage": "https://github.com/harshraj-labs/pulse-agent#readme",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.102.0",
+    "@google/generative-ai": "^0.24.1",
+    "@slack/bolt": "^4.7.3",
+    "better-sqlite3": "^12.10.0",
+    "dotenv": "^17.4.2",
+    "node-cron": "^4.2.1",
+    "openai": "^6.42.0"
+  }
+}
