@@ -2,7 +2,7 @@
 
 > Eliminate unnecessary standups. Every team member submits a 60-second brief at 5 PM. PULSE generates an AI-powered manager digest at 6 PM. No meeting needed.
 
-![PULSE Banner](./assets/banner.png)
+![PULSE Banner](./assets/architecture.png)
 
 ## 🎯 The Problem
 
