@@ -138,14 +138,16 @@ npm start
 ## 🗂️ Project Structure
 
 ```
-pulse-agent/
-├── src/
-│   ├── app.js          # Main Slack Bolt app, event handlers
-│   ├── db.js           # SQLite database layer
-│   ├── modal.js        # Slack Block Kit UI components
-│   ├── summary.js      # AI summary generation (Groq)
-│   └── scheduler.js    # Cron job scheduling
+PULSE-AGENT
+├── assets
+├── src
+│   ├── app.js
+│   ├── db.js
+│   ├── modal.js
+│   ├── scheduler.js
+│   └── summary.js
 ├── .env.example
+├── package-lock.json
 ├── package.json
 └── README.md
 ```
