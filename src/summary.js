@@ -46,7 +46,16 @@ async function flagUrgentBlockers(briefs) {
   if (!briefs || briefs.length === 0) return [];
 
   const blockersText = briefs
-    .filter((b) => b.blockers.toLowerCase() !== 'none')
+    .filter((b) => {
+      const text = b.blockers.toLowerCase().trim();
+      return text !== 'none' && 
+              text !== 'none.' &&
+              !text.includes('not at the moment') &&
+              !text.includes('no blockers') &&
+              !text.includes('nothing') &&
+              !text.includes('n/a') &&
+              text.length > 10;
+    })
     .map((b) => `${b.username}: ${b.blockers}`)
     .join('\n');
 
