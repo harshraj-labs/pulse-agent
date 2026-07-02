@@ -14,6 +14,9 @@ const {
   initScheduler, 
   triggerManualDigest 
 } = require('./scheduler');
+const { 
+  searchBlockerContext
+} = require('./rts');
 
 // Initialize Slack Bolt app with Socket Mode
 const app = new App({
@@ -98,15 +101,46 @@ app.command('/pulse-status', async ({ command, ack, respond }) => {
 // SLASH COMMAND: /pulse-report
 // Manually triggers the AI manager digest
 // ─────────────────────────────────────────
-app.command('/pulse-report', async ({ command, ack, respond }) => {
+app.command('/pulse-report', async ({ command, ack, respond, client }) => {
   await ack();
 
   await respond({
     response_type: 'ephemeral',
-    text: '⏳ Generating digest... this will take a few seconds.',
+    text: '⏳ Generating digest and searching Slack for blocker context...',
   });
 
+  const briefs = getTodayBriefs();
+
+  // RTS API — search for blocker context in real time
+  const rtsContext = await searchBlockerContext(client, briefs);
+
   const success = await triggerManualDigest(command.channel_id);
+
+  // Post RTS results if found
+  if (rtsContext) {
+    await app.client.chat.postMessage({
+      channel: command.channel_id,
+      blocks: [
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: `*🔍 Real-Time Slack Context — Related Discussions:*\n${rtsContext}`,
+          },
+        },
+        {
+          type: 'context',
+          elements: [
+            {
+              type: 'mrkdwn',
+              text: '_Powered by Slack Real-Time Search API_',
+            },
+          ],
+        },
+      ],
+      text: '🔍 Real-time blocker context from Slack',
+    });
+  }
 
   if (!success) {
     await respond({
