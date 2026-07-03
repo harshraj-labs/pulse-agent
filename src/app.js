@@ -26,7 +26,7 @@ const app = new App({
   appToken: process.env.SLACK_APP_TOKEN,
 });
 
-// Manager config — update channelId and teamMembers after setup
+// Manager config - update channelId and teamMembers after setup
 const managerConfig = {
   channelId: process.env.MANAGER_CHANNEL_ID || '',
   teamMembers: process.env.TEAM_MEMBERS ? process.env.TEAM_MEMBERS.split(',') : [],
@@ -80,7 +80,7 @@ app.command('/pulse-status', async ({ command, ack, respond }) => {
   }
 
   const submittedList = briefs
-    .map((b) => `• *${b.username}* — submitted at ${new Date(b.submitted_at).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}`)
+    .map((b) => `• *${b.username}* - submitted at ${new Date(b.submitted_at).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}`)
     .join('\n');
 
   await respond({
@@ -90,7 +90,7 @@ app.command('/pulse-status', async ({ command, ack, respond }) => {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*📊 PULSE Status — Today's Briefs (${briefs.length} submitted)*\n\n${submittedList}`,
+          text: `*📊 PULSE Status - Today's Briefs (${briefs.length} submitted)*\n\n${submittedList}`,
         },
       },
     ],
@@ -111,8 +111,8 @@ app.command('/pulse-report', async ({ command, ack, respond, client }) => {
 
   const briefs = getTodayBriefs();
 
-  // RTS API — search for blocker context in real time
-  const rtsContext = await searchBlockerContext(client, briefs);
+  // RTS API - search for blocker context in real time
+  const rtsContext = await searchBlockerContext(client, briefs, latestActionToken);
 
   const success = await triggerManualDigest(command.channel_id);
 
@@ -125,7 +125,7 @@ app.command('/pulse-report', async ({ command, ack, respond, client }) => {
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: `*🔍 Real-Time Slack Context — Related Discussions:*\n${rtsContext}`,
+            text: `*🔍 Real-Time Slack Context - Related Discussions:*\n${rtsContext}`,
           },
         },
         {
@@ -181,7 +181,7 @@ app.command('/pulse-blockers', async ({ command, ack, respond }) => {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*🚧 Active Blockers — ${blockers.length} reported today*\n\n${blockerList}`,
+          text: `*🚧 Active Blockers - ${blockers.length} reported today*\n\n${blockerList}`,
         },
       },
     ],
@@ -259,7 +259,13 @@ app.view('brief_submission', async ({ ack, body, view, client }) => {
 // APP MENTION: @PULSE help
 // Basic help message when bot is mentioned
 // ─────────────────────────────────────────
+let latestActionToken = null;
+
 app.event('app_mention', async ({ event, say }) => {
+  if (event.action_token) {
+    latestActionToken = event.action_token;
+  }
+
   await say({
     blocks: [
       {
@@ -274,10 +280,10 @@ app.event('app_mention', async ({ event, say }) => {
         text: {
           type: 'mrkdwn',
           text: [
-            '• */pulse* — Submit your daily brief',
-            '• */pulse-status* — See who submitted today',
-            '• */pulse-report* — Generate AI team digest now',
-            '• */pulse-blockers* — See all active blockers',
+            '• */pulse* - Submit your daily brief',
+            '• */pulse-status* - See who submitted today',
+            '• */pulse-report* - Generate AI team digest now',
+            '• */pulse-blockers* - See all active blockers',
           ].join('\n'),
         },
       },
@@ -293,7 +299,6 @@ app.event('app_mention', async ({ event, say }) => {
     ],
   });
 });
-
 // ─────────────────────────────────────────
 // START
 // ─────────────────────────────────────────
@@ -304,7 +309,7 @@ app.event('app_mention', async ({ event, say }) => {
     console.log('📋 Daily briefs: 5:00 PM IST');
     console.log('🔔 Reminders:    5:45 PM IST');
     console.log('📊 Digest:       6:00 PM IST');
-    console.log('📅 Schedule:     Monday — Friday');
+    console.log('📅 Schedule:     Monday - Friday');
 
     // Initialize the scheduler with the app instance
     initScheduler(app, managerConfig);

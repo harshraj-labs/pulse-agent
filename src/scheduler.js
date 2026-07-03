@@ -12,25 +12,25 @@ function initScheduler(app, config) {
   slackApp = app;
   managerConfig = config;
 
-  // 5:00 PM — trigger brief modal for all team members
+  // 5:00 PM - trigger brief modal for all team members
   cron.schedule('0 17 * * 1-5', async () => {
-    console.log('⏰ 5 PM trigger — sending brief reminders...');
+    console.log('⏰ 5 PM trigger - sending brief reminders...');
     await sendBriefReminders();
   }, {
     timezone: 'Asia/Kolkata'
   });
 
-  // 5:45 PM — send reminder to anyone who hasn't submitted yet
+  // 5:45 PM - send reminder to anyone who hasn't submitted yet
   cron.schedule('45 17 * * 1-5', async () => {
-    console.log('⏰ 5:45 PM — sending follow-up reminders...');
+    console.log('⏰ 5:45 PM - sending follow-up reminders...');
     await sendFollowUpReminders();
   }, {
     timezone: 'Asia/Kolkata'
   });
 
-  // 6:00 PM — send manager digest
+  // 6:00 PM - send manager digest
   cron.schedule('0 18 * * 1-5', async () => {
-    console.log('⏰ 6 PM — generating manager digest...');
+    console.log('⏰ 6 PM - generating manager digest...');
     await sendManagerDigest();
   }, {
     timezone: 'Asia/Kolkata'

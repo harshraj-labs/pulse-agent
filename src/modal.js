@@ -5,7 +5,7 @@ function buildBriefModal() {
     callback_id: 'brief_submission',
     title: {
       type: 'plain_text',
-      text: '📋 Daily Brief — PULSE',
+      text: '📋 Daily Brief - PULSE',
     },
     submit: {
       type: 'plain_text',
@@ -20,7 +20,7 @@ function buildBriefModal() {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: '*End of day check-in* — takes 60 seconds. Your manager gets a digest, not a meeting. 🎯',
+          text: '*End of day check-in* - takes 60 seconds. Your manager gets a digest, not a meeting. 🎯',
         },
       },
       {
@@ -104,7 +104,7 @@ function buildReminderMessage() {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `⏰ *Daily Brief Reminder — PULSE*\nTake 60 seconds to submit your end-of-day brief. Your team is counting on it.`,
+          text: `⏰ *Daily Brief Reminder - PULSE*\nTake 60 seconds to submit your end-of-day brief. Your team is counting on it.`,
         },
       },
       {

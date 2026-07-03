@@ -1,10 +1,9 @@
 // Real-Time Search API integration
-// Searches Slack workspace for blocker-related discussions
+// Searches Slack workspace for blocker-related discussions using user token
 
 async function searchBlockerContext(client, blockers) {
   if (!blockers || blockers.length === 0) return null;
 
-  // Build query from today's blockers
   const blockerTerms = blockers
     .filter((b) => b.blockers.toLowerCase() !== 'none')
     .map((b) => b.blockers)
@@ -13,19 +12,21 @@ async function searchBlockerContext(client, blockers) {
   if (!blockerTerms) return null;
 
   try {
-    const result = await client.apiCall('assistant.search.context', {
-      query: `What are the latest discussions about: ${blockerTerms}?`,
-      content_types: ['messages'],
-      channel_types: ['public_channel'],
-      limit: 5,
+    const { WebClient } = require('@slack/web-api');
+    const userClient = new WebClient(process.env.SLACK_USER_TOKEN);
+
+    const result = await userClient.search.messages({
+      query: blockerTerms,
+      count: 5,
+      sort: 'timestamp',
+      sort_dir: 'desc',
     });
 
-    if (!result.ok || !result.results?.messages?.length) return null;
+    if (!result.ok || !result.messages?.matches?.length) return null;
 
-    // Format results for Slack Block Kit
-    const messages = result.results.messages
+    const messages = result.messages.matches
       .slice(0, 3)
-      .map((m) => `• *${m.author_name}* in #${m.channel_name}: "${m.content?.slice(0, 120)}..."`)
+      .map((m) => `• *${m.username}* in #${m.channel?.name}: "${m.text?.slice(0, 120)}..."`)
       .join('\n');
 
     return messages;

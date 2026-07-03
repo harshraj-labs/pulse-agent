@@ -25,10 +25,10 @@ Here are today's end-of-day briefs from the team:
 ${briefsText}
 
 Generate a concise manager digest with these sections:
-1. 📊 TEAM OVERVIEW — 2-3 sentence summary of overall team progress today
-2. ✅ KEY WINS — bullet points of the most important things accomplished
-3. 🚧 BLOCKERS TO ADDRESS — list any blockers that need manager attention (if none, say "None reported")
-4. 📅 TOMORROW'S FOCUS — what the team is collectively working on tomorrow
+1. 📊 TEAM OVERVIEW - 2-3 sentence summary of overall team progress today
+2. ✅ KEY WINS - bullet points of the most important things accomplished
+3. 🚧 BLOCKERS TO ADDRESS - list any blockers that need manager attention (if none, say "None reported")
+4. 📅 TOMORROW'S FOCUS - what the team is collectively working on tomorrow
 
 Keep it sharp, actionable, and under 300 words. No fluff.`;
 
@@ -107,7 +107,7 @@ function buildManagerDigest(summary, briefs, urgentBlockers) {
       type: 'header',
       text: {
         type: 'plain_text',
-        text: '📊 PULSE — Daily Team Digest',
+        text: '📊 PULSE - Daily Team Digest',
       },
     },
     {
@@ -115,7 +115,7 @@ function buildManagerDigest(summary, briefs, urgentBlockers) {
       elements: [
         {
           type: 'mrkdwn',
-          text: `*${date}* — ${briefs.length} brief${briefs.length !== 1 ? 's' : ''} submitted`,
+          text: `*${date}* - ${briefs.length} brief${briefs.length !== 1 ? 's' : ''} submitted`,
         },
       ],
     },
@@ -144,7 +144,7 @@ function buildManagerDigest(summary, briefs, urgentBlockers) {
   if (urgentBlockers && urgentBlockers.length > 0) {
     const blockerText = urgentBlockers
       .map(
-        (b) => `• *${b.employee}* — ${b.blocker} _(${b.urgency} urgency)_`
+        (b) => `• *${b.employee}* - ${b.blocker} _(${b.urgency} urgency)_`
       )
       .join('\n');
 
@@ -162,7 +162,7 @@ function buildManagerDigest(summary, briefs, urgentBlockers) {
     elements: [
       {
         type: 'mrkdwn',
-        text: '_Powered by PULSE — eliminating unnecessary meetings, one digest at a time._',
+        text: '_Powered by PULSE - eliminating unnecessary meetings, one digest at a time._',
       },
     ],
   });
